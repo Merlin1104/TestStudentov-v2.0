@@ -10,6 +10,8 @@ namespace TestStudentov_v2._0
     {
         static void Main(string[] args)
         {
+            Quiz q = new Quiz();
+            q.SpustQuiz();
         }
     }
 }

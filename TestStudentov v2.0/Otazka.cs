@@ -25,7 +25,7 @@ namespace TestStudentov_v2._0
         }
         public Moznost[] Odpovedi;
 
-        public void VypisOtazku()
+        public virtual void VypisOtazku()
         {
             Console.WriteLine(text);
             Console.WriteLine("----------");
@@ -34,15 +34,58 @@ namespace TestStudentov_v2._0
                 Console.WriteLine(m.text);
             }
         }
+
+        public virtual int VyhodnotOtazku()
+        {
+            return 0;
+        }
     }
 
     class SingleOtazka : Otazka
     {
+        public override int VyhodnotOtazku()
+        {
 
+            for (int i = 0; i < this.Odpovedi.Length; i++)
+            {
+                if (this.Odpovedi[i].spravnost) return 1;
+                
+            }
+
+            return 0;
+            //da sa aj foreach
+        }
+
+        public override void VypisOtazku()
+        {
+            Console.WriteLine("Single choice");
+            base.VypisOtazku();
+        }
     }
 
     class MultiOtazka : Otazka
     {
+        public override int VyhodnotOtazku()
+        {
+            int body = 0;
+            for (int i = 0; i < this.Odpovedi.Length; i++)
+            {
+                if (this.Odpovedi[i].spravnost) body++;
 
+                else
+                {
+                    body--;
+                }
+            }
+
+            return body;
+            
+        }
+
+        public override void VypisOtazku()
+        {
+            Console.WriteLine("Multiple choice");
+            base.VypisOtazku();
+        }
     }
 }

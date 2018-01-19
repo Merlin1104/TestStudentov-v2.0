@@ -22,7 +22,7 @@ namespace TestStudentov_v2._0
                 int index;
                 do
                 {
-                    index = r.Next(2);
+                    index = r.Next(3);
                 }
                 while (vybranaCisla.Contains(index));
 
@@ -43,9 +43,25 @@ namespace TestStudentov_v2._0
                 {
                     uzivOdpoved = Console.ReadLine();
                 } while (!zkontrolujVstup(uzivOdpoved,o, out poleUzivatelskychIndexov));
+                // tvorba odpovedi
+                o.Odpovedi = new Moznost[poleUzivatelskychIndexov.Length];
+                for (int i = 0; i < poleUzivatelskychIndexov.Length; i++)
+                {
+                    o.Odpovedi[i] = o.Moznosti[poleUzivatelskychIndexov[i] - 1];
+                }
+                
                 
 
             }
+            // vyhodnotenie
+            int body = 0;
+            foreach (Otazka o in otazky)
+            {
+                o.VyhodnotOtazku();
+                body += o.VyhodnotOtazku();
+            }
+
+            Console.WriteLine("Dostali ste {0} bodov",body);
 
             Console.ReadLine();
         }
@@ -58,6 +74,8 @@ namespace TestStudentov_v2._0
             {
                 bool res =  jeCisloAJeVIndexu(uzivVstup, otazka,out index);
                 poleIndexu = new int[] { index };
+                if (!res) Console.WriteLine("Spatny vstup");
+                
                 return res;
             }
             else
@@ -66,7 +84,11 @@ namespace TestStudentov_v2._0
                 poleIndexu = new int[poleOdpovediuzivatela.Length];
                 for(int i = 0; i< poleOdpovediuzivatela.Length; i++)
                 {
-                    if (!jeCisloAJeVIndexu(poleOdpovediuzivatela[i], otazka, out index)) return false;
+                    if (!jeCisloAJeVIndexu(poleOdpovediuzivatela[i], otazka, out index))
+                    {
+                        Console.WriteLine("Spatny vstup");
+                        return false;
+                    }
                     poleIndexu[i] = index;
                 }
                 return true;
@@ -84,7 +106,7 @@ namespace TestStudentov_v2._0
             }
             else
             {
-                return index > 0 && index < otazka.Moznosti.Length;
+                return index > 0 && index < otazka.Moznosti.Length + 1;
                 
             }
         }
